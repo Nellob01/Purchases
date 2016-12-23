@@ -24,8 +24,14 @@ public class PurchaseController {
     PurchaseRepository users;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String home(Model model) {
-        List<Purchase> purchaseList = (List<Purchase>) users.findAll();
+    public String home(Model model, String category) {
+        List<Purchase> purchaseList;
+        if(category != null) {
+            purchaseList = users.findByCategory(category);
+        } else {
+            purchaseList = (List<Purchase>) users.findAll();
+        }
+
         model.addAttribute("users", purchaseList);
         return "home";
     }
